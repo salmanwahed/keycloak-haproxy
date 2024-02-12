@@ -32,4 +32,4 @@ COPY --from=builder /opt/keycloak/ /opt/keycloak/
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
-CMD [ "start-dev", "--spi-sticky-session-encoder-infinispan-should-attach-route=false"]
+CMD [ "start-dev"]

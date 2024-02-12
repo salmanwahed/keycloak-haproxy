@@ -33,4 +33,4 @@ ENV KEYCLOAK_ADMIN_PASSWORD=admin
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
-CMD [ "start-dev"]
+CMD [ "start-dev", "--spi-sticky-session-encoder-infinispan-should-attach-route=true"]

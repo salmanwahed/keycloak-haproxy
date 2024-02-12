@@ -17,7 +17,7 @@ services:
 
   kc1:
     build:
-      context: .
+      context: ${PWD}/keycloak/
       dockerfile: Dockerfile
     container_name: kc1
     restart: unless-stopped
@@ -26,11 +26,11 @@ services:
     networks:
       - kc-network
     volumes:
-      - ${PWD}/kc-logs:/var/log/keycloak
+      - kc-log:/var/log/keycloak
 
   kc2:
     build:
-      context: .
+      context: ${PWD}/keycloak/
       dockerfile: Dockerfile
     container_name: kc2
     restart: unless-stopped
@@ -39,25 +39,29 @@ services:
     networks:
       - kc-network
     volumes:
-      - ${PWD}/kc-logs:/var/log/keycloak
+      - kc-log:/var/log/keycloak
 
   haproxy:
-    image: haproxy:lts-bookworm
+    build:
+      context: ${PWD}/haproxy/
+      dockerfile: Dockerfile
     restart: unless-stopped
     container_name: haproxy
     ports:
       - 8080:8080
-    volumes:
-      - ${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - 8081:8081
     depends_on:
       - kc1
       - kc2
     networks:
       - kc-network
+    volumes:
+      - haproxy-log:/dev/log
 
 volumes:
   db-data:
-  kc-logs:
+  kc-log:
+  haproxy-log:
 
 networks:
   kc-network:

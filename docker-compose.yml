@@ -25,11 +25,8 @@ services:
       - db
     networks:
       - kc-network
-    ports:
-      - 9091:8080
     volumes:
-      - ${PWD}/kc1-logs:/var/log/keycloak
-      - ${PWD}/kc1-data:/data/keycloak
+      - ${PWD}/kc-logs:/var/log/keycloak
 
   kc2:
     build:
@@ -41,11 +38,8 @@ services:
       - db
     networks:
       - kc-network
-    ports:
-      - 9092:8080
     volumes:
-      - ${PWD}/kc2-logs:/var/log/keycloak
-      - ${PWD}/kc2-data:/data/keycloak
+      - ${PWD}/kc-logs:/var/log/keycloak
 
   haproxy:
     image: haproxy:lts-bookworm
@@ -54,7 +48,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ${PWD}/haproxy.cfg:/etc/haproxy/conf.d/haproxy.cfg:ro
+      - ${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
     depends_on:
       - kc1
       - kc2
@@ -63,10 +57,8 @@ services:
 
 volumes:
   db-data:
-  kc1-logs:
-  kc2-logs:
-  kc1-data:
-  kc2-data:
+  kc-logs:
 
 networks:
   kc-network:
+

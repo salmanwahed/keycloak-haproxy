@@ -10,10 +10,6 @@ ENV KC_DB_URL=jdbc:postgresql://db:5432/keycloak?useSSL=false
 ENV KC_DB_USERNAME=postgres
 ENV KC_DB_PASSWORD=admin
 
-# Admin
-ENV KEYCLOAK_ADMIN=admin
-ENV KEYCLOAK_ADMIN_PASSWORD=admin
-
 # Load Balancer / Reverse Proxy
 ENV KC_PROXY=edge
 
@@ -29,6 +25,11 @@ RUN /opt/keycloak/bin/kc.sh build
 
 FROM quay.io/keycloak/keycloak:23.0.6
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
+
+# Admin
+ENV KEYCLOAK_ADMIN=admin
+ENV KEYCLOAK_ADMIN_PASSWORD=admin
+
 
 ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
 
